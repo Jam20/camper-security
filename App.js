@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 
-const manager = new BleManager()
+export const manager = new BleManager()
 export default function App() {
   var [deviceNames, setDeviceNames] = useState([])
+  var [newDevice, setNewDevice] = useState(null)
 
   const scanAndConnect = ()=> {
     manager.startDeviceScan(null, null, (error, device)=>{
       if(error) return 
-      setDeviceNames([...deviceNames, device.name])
+      if(device.name != null && !deviceNames.includes(device.name)) setNewDevice(device)
       if(device.name === "DEVICE NAME" || device.name === "OTHER NAME"){
         manager.stopDeviceScan()
         device.connect()
@@ -33,11 +34,15 @@ export default function App() {
     },true)
   },[])
 
+  useEffect(()=>{
+    if(newDevice != null && !deviceNames.includes(newDevice.name) ) setDeviceNames([...deviceNames, newDevice.name])
+  },[newDevice])
+
 
   return (
     <View style={styles.container} >
       <Text>This is a dummy app and I will test BLE </Text>
-      <Text>Found Devices: {deviceNames.count == 0 ? "NONE": deviceNames} </Text>
+      <Text>Found Devices: {deviceNames.reduce((prev,curr)=>{return prev + "\n" + curr},"")} </Text>
     </View>
   );
 }
