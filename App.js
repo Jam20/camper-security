@@ -3,13 +3,15 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BluetoothController } from './modules/BluetoothController';
 
-export const manager = new BleManager()
 export default function App() {
   var [status, setStatus] = useState(null)
   var [connected, setConnected] = useState(false)
   
   useEffect(()=>{
+    
+    console.log("test1")
     BluetoothController.connect( async ()=>{
+      console.log("test 6")
       setConnected(BluetoothController.isConnected())
       await BluetoothController.sendRequest(0,0,0,0)
       setStatus(await BluetoothController.getStatus())

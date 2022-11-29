@@ -17,7 +17,9 @@ var connectedDevice = null
  */
 const scanAndConnect = async (error,device) => {
     if(error) return
+    console.log("test 4")
     if(device.name == "Camper Security Device"){
+        console.log("test 5")
         manager.stopDeviceScan()
         connectedDevice = await device.connect()
             .then((device)=>device.discoverAllServicesAndCharacteristics())         
@@ -28,8 +30,10 @@ const isConnected = () => connectedDevice != null
 
 export const BluetoothController = {
     "connect": (callback)=> {
+        console.log("test 2")
         const subscription = manager.onStateChange((state)=> {
             if(state == "PoweredOn"){
+                console.log("test 3")
                 const callbackWrapper = async (error,device)=>{
                     await scanAndConnect(error, device)
                     if(isConnected())
@@ -55,7 +59,12 @@ export const BluetoothController = {
         if(!isConnected()) return null
         const base64 = await connectedDevice.readCharacteristicForService(serviceID, characteristicID).value
         try{
-            if(byteLength(base64)<1) return
+            if(byteLength(base64)<1) return {
+                "running": 0,
+                "left": 0,
+                "right": 0,
+                "reverse": 0
+            }
         } catch {
             return
         }
