@@ -21,7 +21,7 @@ const scanAndConnect = async (error,device) => {
         manager.stopDeviceScan()
         connectedDevice = await device.connect()
             .then((device)=>device.discoverAllServicesAndCharacteristics())   
-            console.log(atob((await connectedDevice.readCharacteristicForService(serviceID,characteristicID)).value))
+        
     }
 }
 
@@ -50,28 +50,21 @@ export const BluetoothController = {
         array[1] = left
         array[2] = right
         array[3] = reverse
-        await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID,characteristicID,btoa("A"))
+        const base64ToSend = fromByteArray(array)
+        await connectedDevice.writeCharacteristicWithResponseForService(serviceID,characteristicID,base64ToSend)
     },
     "getStatus": async () => {
         if(!isConnected()) return null
-        const base64 = await connectedDevice.readCharacteristicForService(serviceID, characteristicID).value
-/*
+        const characteristic = await connectedDevice.readCharacteristicForService(serviceID, characteristicID)
+        const base64 = characteristic.value
+        
         const byteArray = toByteArray(base64)
-        try{
-            if(byteLength(base64)<4) return {
-                "running": 0,
-                "left": 0,
-                "right": 0,
-                "reverse": 0
-            }
-        } catch {
-            return
-        }*/
-        return null/*{
+
+        return {
             "running": byteArray[0],
             "left": byteArray[1],
             "right": byteArray[2],
             "reverse": byteArray[3]
-        }*/
+        }
     }
 }

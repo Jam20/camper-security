@@ -318,6 +318,10 @@ PODS:
   - react-native-ble-plx (2.0.3):
     - MultiplatformBleAdapter (= 0.1.9)
     - React-Core
+  - react-native-blur (4.3.0):
+    - React-Core
+  - react-native-netinfo (9.3.7):
+    - React-Core
   - react-native-quick-base64 (2.0.5):
     - React-Core
   - React-perflogger (0.69.6)
@@ -386,6 +390,12 @@ PODS:
     - React-jsi (= 0.69.6)
     - React-logger (= 0.69.6)
     - React-perflogger (= 0.69.6)
+  - RNCPicker (2.4.8):
+    - React-Core
+  - RNDateTimePicker (6.7.1):
+    - React-Core
+  - RNGestureHandler (2.5.0):
+    - React-Core
   - RNReanimated (2.9.1):
     - DoubleConversion
     - FBLazyVector
@@ -452,6 +462,8 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
+  - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -465,6 +477,9 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -544,6 +559,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-ble-plx:
     :path: "../node_modules/react-native-ble-plx"
+  react-native-blur:
+    :path: "../node_modules/@react-native-community/blur"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-quick-base64:
     :path: "../node_modules/react-native-quick-base64"
   React-perflogger:
@@ -570,6 +589,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   Yoga:
@@ -613,6 +638,8 @@ SPEC CHECKSUMS:
   React-jsinspector: eaacb698c5af7a99131bc1933806372c20222dfd
   React-logger: ebb4d31bbbe4f1a8a1a9b658d7429210b8f68160
   react-native-ble-plx: f10240444452dfb2d2a13a0e4f58d7783e92d76e
+  react-native-blur: 50c9feabacbc5f49b61337ebc32192c6be7ec3c3
+  react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-quick-base64: e657e9197e61b60a9dec49807843052b830da254
   React-perflogger: 1fb1ad5333b43a5137afd7608695f7a42c5efd27
   React-RCTActionSheet: a435bd67689433575a1e5d7614b021d2c17f0726
@@ -626,6 +653,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 285f8538386c660e6b9497e204636acd93bf7fcc
   React-runtimeexecutor: 0af71c94f968fa10015bf0119951bccd2e4d8865
   ReactCommon: fe7580b9d10f00249facf25659e0ec051320cc8a
+  RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
+  RNDateTimePicker: 0530a73a6f3a1a85814cbde0802736993b9e675e
+  RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNReanimated: 2cf7451318bb9cc430abeec8d67693f9cf4e039c
   Yoga: 75bf4b0131cfb46a659cd0c13309b79a6fcff66d
 
