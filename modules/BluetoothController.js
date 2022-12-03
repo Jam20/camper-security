@@ -1,5 +1,5 @@
 import { BleManager, Device } from "react-native-ble-plx"
-import { toByteArray, fromByteArray, byteLength, atob, btoa} from "react-native-quick-base64"
+import { toByteArray, fromByteArray} from "react-native-quick-base64"
 
 
 const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
