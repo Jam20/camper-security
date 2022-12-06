@@ -32,7 +32,7 @@ export default function App() {
       <TabController  items={[{label: 'Music' }, {label: 'Home'}, {label: 'Settings'}]}>
        <View flex>
          <TabController.TabPage index={0}><MusicPage/></TabController.TabPage>
-         <TabController.TabPage index={1} lazy><HomePage/></TabController.TabPage>
+         <TabController.TabPage index={1} lazy><HomePage sendRequest={BluetoothController.sendRequest}/></TabController.TabPage>
          <TabController.TabPage index={2} lazy><SettingsPage/></TabController.TabPage>
        </View>
        <TabController.TabBar enableShadows />

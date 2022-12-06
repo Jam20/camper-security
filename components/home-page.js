@@ -2,11 +2,17 @@ import { useState, useEffect } from 'react';
 import { View, Text, Button, Slider } from 'react-native-ui-lib';
 
 
-export default function HomePage() {
+export default function HomePage(props) {
     const [running, setRunning] = useState(0)
     const [left, setLeft] = useState(0)
     const [right, setRight] = useState(0)
     const [reverse, setReverse] = useState(0)
+
+    useEffect(()=> {
+        if(props.sendRequest){
+            props.sendRequest(running,left,right,reverse)
+        }
+    }, [running, left, right, reverse])
     
 
     return (
