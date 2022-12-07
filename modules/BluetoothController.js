@@ -1,12 +1,11 @@
 import { BleManager, Device } from "react-native-ble-plx"
-import { toByteArray, atob, btoa} from "react-native-quick-base64"
+import { atob, btoa} from "react-native-quick-base64"
 
 
 const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
 const characteristicID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 
 const manager = new BleManager()
-
 
 var connectedDevice = null
 /**
@@ -20,12 +19,12 @@ const scanAndConnect = async (error,device) => {
     if(device.name == "Camper Security Device"){
         manager.stopDeviceScan()
         connectedDevice = await device.connect()
-            .then((device)=>device.discoverAllServicesAndCharacteristics())   
+            .then((device)=>device.discoverAllServicesAndCharacteristics()) 
         
     }
 }
 
-const isConnected = () => connectedDevice != null
+const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
 export const BluetoothController = {
     "connect": (callback)=> {
@@ -33,7 +32,7 @@ export const BluetoothController = {
             if(state == "PoweredOn"){
                 const callbackWrapper = async (error,device)=>{
                     await scanAndConnect(error, device)
-                    if(isConnected())
+                    if(await isConnected())
                     callback()
                 }
                 manager.startDeviceScan(null,null,callbackWrapper)
@@ -44,17 +43,17 @@ export const BluetoothController = {
     "isConnected": isConnected,
 
     "sendRequest": async (running, left, right, reverse)=>{
-        if(!isConnected()) return 
-        const string = `(${running},${left},${right},${reverse})`
+        if(!await isConnected()) return 
+        const string = `${running},${left},${right},${reverse}`
         const base64ToSend = btoa(string)
         await connectedDevice.writeCharacteristicWithResponseForService(serviceID,characteristicID,base64ToSend)
     },
     "getStatus": async () => {
-        if(!isConnected()) return null
+        if(!await isConnected()) return null
         const characteristic = await connectedDevice.readCharacteristicForService(serviceID, characteristicID)
         const base64 = characteristic.value
         const string = atob(base64)
-        const byteArray = string.replace("(","").split(",")
+        const byteArray = string.split(",")
 
         return {
             "running": byteArray[0],

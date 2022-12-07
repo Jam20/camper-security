@@ -9,19 +9,11 @@ import { BluetoothController } from './modules/BluetoothController';
 
 
 export default function App() {
-  var [status, setStatus] = useState(null)
   var [connected, setConnected] = useState(false)
-  var [writeValue, setWriteValue] = useState("")
-  var [readValue, setReadValue] = useState("NOTHING")
 
   useEffect(()=>{
-    
-    
     BluetoothController.connect( async ()=>{
-      setConnected(BluetoothController.isConnected())
-      //await new Promise(resolve => setTimeout(resolve, 8000));
-      //await BluetoothController.sendRequest(39,0,0,0)
-      setStatus(await BluetoothController.getStatus())
+      setConnected(await BluetoothController.isConnected())
     })
   },[])
 
@@ -31,8 +23,10 @@ export default function App() {
     <View flex paddingT-60 paddingB-32 >
       <TabController  items={[{label: 'Music' }, {label: 'Home'}, {label: 'Settings'}]}>
        <View flex>
-         <TabController.TabPage index={0}><MusicPage/></TabController.TabPage>
-         <TabController.TabPage index={1} lazy><HomePage sendRequest={BluetoothController.sendRequest}/></TabController.TabPage>
+         <TabController.TabPage index={0}>
+          <Text>{connected? "Connected" : "Not Connected"}</Text>
+          </TabController.TabPage>
+         <TabController.TabPage index={1} lazy><HomePage/></TabController.TabPage>
          <TabController.TabPage index={2} lazy><SettingsPage/></TabController.TabPage>
        </View>
        <TabController.TabBar enableShadows />
