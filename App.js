@@ -3,9 +3,7 @@ import { View, Text, TabController} from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 import { BluetoothController } from './modules/BluetoothController';
 import ConnectedScreen from './components/connected-screen';
-import SettingsPage from './components/settings-page';
-import HomePage from './components/home-page';
-import MusicPage from './components/music-page';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export default function App() {
   var [connected, setConnected] = useState(false)
 
@@ -25,9 +23,12 @@ export default function App() {
   
 
   return (
-    <View flex paddingT-60 paddingB-32>
-      {connected ? <ConnectedScreen/> : <Text>Not Connected</Text>}
-    </View>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View flex paddingT-60 paddingB-32>
+        {!connected ? <ConnectedScreen/> : <Text>Not Connected</Text>}
+      </View>
+    </GestureHandlerRootView>
+
 
   );
 }
