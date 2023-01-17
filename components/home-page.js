@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { View, Text, Slider } from 'react-native-ui-lib';
+import { View} from 'react-native-ui-lib';
 import { BluetoothController } from '../modules/BluetoothController';
 import LightSlider from './light-slider';
 

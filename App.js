@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import {View, TabController, Text} from 'react-native-ui-lib';
+import { View, Text, TabController} from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
+import { BluetoothController } from './modules/BluetoothController';
+import ConnectedScreen from './components/connected-screen';
+import SettingsPage from './components/settings-page';
 import HomePage from './components/home-page';
 import MusicPage from './components/music-page';
-import SettingsPage from './components/settings-page';
-import { BluetoothController } from './modules/BluetoothController';
-
-
-
 export default function App() {
   var [connected, setConnected] = useState(false)
 
@@ -15,22 +13,20 @@ export default function App() {
     BluetoothController.connect( async ()=>{
       setConnected(await BluetoothController.isConnected())
     })
+    setInterval(async () => {
+      if(await BluetoothController.isConnected()) return
+      setConnected(false)
+      BluetoothController.connect(async () => {
+        setConnected(await BluetoothController.isConnected())
+      })
+    },5000)
   },[])
 
   
 
   return (
-    <View flex paddingT-60 paddingB-32 >
-      <TabController  items={[{label: 'Music' }, {label: 'Home'}, {label: 'Settings'}]}>
-       <View flex>
-         <TabController.TabPage index={0}>
-          <Text>{connected? "Connected" : "Not Connected"}</Text>
-          </TabController.TabPage>
-         <TabController.TabPage index={1} lazy><HomePage/></TabController.TabPage>
-         <TabController.TabPage index={2} lazy><SettingsPage/></TabController.TabPage>
-       </View>
-       <TabController.TabBar enableShadows />
-      </TabController>
+    <View flex paddingT-60 paddingB-32>
+      {connected ? <ConnectedScreen/> : <Text>Not Connected</Text>}
     </View>
 
   );
