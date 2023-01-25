@@ -1,4 +1,4 @@
-import { View} from 'react-native-ui-lib';
+import { Text, View} from 'react-native-ui-lib';
 import { BluetoothController } from '../modules/BluetoothController';
 import LightSlider from './light-slider';
 
@@ -11,7 +11,7 @@ export default function HomePage(props) {
         <View flex paddingT-32 paddingB-32 paddingL-32 paddingR-32>
             <LightSlider label="Running Lights" onValueChange={(value)=> BluetoothController.sendRequest({running: value})}/>
 
-            <View row>
+            <View flex row>
                 <View width={"50%"} paddingR-16>
                     <LightSlider label="Left Turn Lights" onValueChange={(value)=> BluetoothController.sendRequest({left: value})}/>
                 </View>

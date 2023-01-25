@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TabController} from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 import { BluetoothController } from './modules/BluetoothController';
 import ConnectedScreen from './components/connected-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import DisconnectedScreen from './components/disconnected-screen';
 export default function App() {
   var [connected, setConnected] = useState(false)
 
@@ -24,8 +25,8 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <View flex paddingT-60 paddingB-32>
-        {!connected ? <ConnectedScreen/> : <Text>Not Connected</Text>}
+      <View paddingT-60 paddingB-32 style={styles.container}>
+        {!connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
       </View>
     </GestureHandlerRootView>
 
@@ -36,7 +37,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#333333',
     alignItems: 'center',
     justifyContent: 'center',
   },

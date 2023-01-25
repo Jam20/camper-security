@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Slider } from 'react-native-ui-lib';
+import { StyleSheet } from 'react-native';
 
 
 const maxVal = 8191
@@ -9,8 +10,9 @@ export default function LightSlider(props) {
     const [value, setValue] = useState(minVal)
 
     return(
-        <View paddingB-64 >
-                <Text h1 centerH>{props.label}</Text>
+        <View paddingB-64 style={styles.container}>
+                <Text>TEST</Text>
+                <Text h1 centerH color="#ffffff">{props.label}</Text>
                 <Slider 
                     value={minVal}
                     onValueChange={(val) => {
@@ -26,3 +28,10 @@ export default function LightSlider(props) {
             </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        borderColor: "red",
+        flex: 1
+    }
+})

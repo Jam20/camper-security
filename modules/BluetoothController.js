@@ -31,6 +31,22 @@ const scanAndConnect = async (error,device) => {
 
 const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
+const toArray = (requestObj) => {
+    const output = []
+    if(requestObj.running) output.push(requestObj.running)
+    else output.push(0)
+   
+    if(requestObj.left) output.push(requestObj.left)
+    else output.push(0)
+
+    if(requestObj.right) output.push(requestObj.right)
+    else output.push(0)
+    
+    if(requestObj.reverse) output.push(requestObj.reverse)
+    else output.push(0)
+
+    return output
+}
 export const BluetoothController = {
     "connect": (callback)=> {
         const subscription = manager.onStateChange((state)=> {
@@ -60,7 +76,7 @@ export const BluetoothController = {
 
         prevMessageTime = Date.now() //set new previous time
         if(!await isConnected()) return
-        const encodedMessage = btoa(JSON.stringify(messageToSend))
+        const encodedMessage = btoa(JSON.stringify({"lights":toArray(messageToSend)}))
         await connectedDevice.writeCharacteristicWithResponseForService(serviceID, characteristicID, encodedMessage)
         nextMessage = {}
     },
