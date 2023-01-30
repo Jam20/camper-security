@@ -32,20 +32,12 @@ const scanAndConnect = async (error,device) => {
 const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
 const toArray = (requestObj) => {
-    const output = []
-    if(requestObj.running) output.push(requestObj.running)
-    else output.push(0)
-   
-    if(requestObj.left) output.push(requestObj.left)
-    else output.push(0)
-
-    if(requestObj.right) output.push(requestObj.right)
-    else output.push(0)
-    
-    if(requestObj.reverse) output.push(requestObj.reverse)
-    else output.push(0)
-
-    return output
+    return [
+        requestObj.running ? requestObj.running : 0,
+        requestObj.left ? requestObj.left : 0,
+        requestObj.right ? requestObj.right : 0,
+        requestObj.reverse ? requestObj.reverse : 0,
+    ]
 }
 export const BluetoothController = {
     "connect": (callback)=> {

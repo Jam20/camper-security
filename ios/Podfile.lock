@@ -3,6 +3,10 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (4.2.2):
     - ExpoModulesCore
+  - EXAV (12.0.4):
+    - ExpoModulesCore
+    - React-runtimeexecutor
+    - ReactCommon
   - EXConstants (13.2.4):
     - ExpoModulesCore
   - EXFileSystem (14.1.0):
@@ -12,7 +16,7 @@ PODS:
   - EXJSONUtils (0.3.0)
   - EXManifests (0.3.1):
     - EXJSONUtils
-  - Expo (46.0.15):
+  - Expo (46.0.20):
     - ExpoModulesCore
   - expo-dev-client (1.3.1):
     - EXManifests
@@ -88,7 +92,7 @@ PODS:
     - expo-dev-menu/SafeAreaView
   - ExpoKeepAwake (10.2.0):
     - ExpoModulesCore
-  - ExpoModulesCore (0.11.7):
+  - ExpoModulesCore (0.11.10):
     - React-Core
     - ReactCommon/turbomodule/core
   - EXSplashScreen (0.16.2):
@@ -379,6 +383,25 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.69.6)
   - React-runtimeexecutor (0.69.6):
     - React-jsi (= 0.69.6)
+  - ReactCommon (0.69.6):
+    - React-logger (= 0.69.6)
+    - ReactCommon/react_debug_core (= 0.69.6)
+    - ReactCommon/turbomodule (= 0.69.6)
+  - ReactCommon/react_debug_core (0.69.6):
+    - React-logger (= 0.69.6)
+  - ReactCommon/turbomodule (0.69.6):
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - React-bridging (= 0.69.6)
+    - React-callinvoker (= 0.69.6)
+    - React-Core (= 0.69.6)
+    - React-cxxreact (= 0.69.6)
+    - React-jsi (= 0.69.6)
+    - React-logger (= 0.69.6)
+    - React-perflogger (= 0.69.6)
+    - ReactCommon/turbomodule/core (= 0.69.6)
+    - ReactCommon/turbomodule/samples (= 0.69.6)
   - ReactCommon/turbomodule/core (0.69.6):
     - DoubleConversion
     - glog
@@ -390,6 +413,18 @@ PODS:
     - React-jsi (= 0.69.6)
     - React-logger (= 0.69.6)
     - React-perflogger (= 0.69.6)
+  - ReactCommon/turbomodule/samples (0.69.6):
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - React-bridging (= 0.69.6)
+    - React-callinvoker (= 0.69.6)
+    - React-Core (= 0.69.6)
+    - React-cxxreact (= 0.69.6)
+    - React-jsi (= 0.69.6)
+    - React-logger (= 0.69.6)
+    - React-perflogger (= 0.69.6)
+    - ReactCommon/turbomodule/core (= 0.69.6)
   - RNCPicker (2.4.8):
     - React-Core
   - RNDateTimePicker (6.7.1):
@@ -429,6 +464,7 @@ DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
+  - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
@@ -495,6 +531,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
     :path: "../node_modules/expo-application/ios"
+  EXAV:
+    :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXFileSystem:
@@ -604,18 +642,19 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: e418d737a036e788510f2c4ad6c10a7d54d18586
+  EXAV: 596506c9bee54ad52f2f3b625cdaeb9d9f2dd6b7
   EXConstants: 7c44785d41d8e959d527d23d29444277a4d1ee73
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
   EXFont: 06df627203afcb8a3b3152ec06eb2f11f46f0cff
   EXJSONUtils: 2a74b8f40f1523cc3f92af99c91aa78201737a77
   EXManifests: b38dc61303f5eede990b4c8ecbfac32f82160e65
-  Expo: 7e821e708a35d2720ef6baa658e224dd91c4821e
+  Expo: c2afed3f226befffaed962e9bacb5e0296acd254
   expo-dev-client: 381f39773b9fd83008fd58bf493d3a7be748752d
   expo-dev-launcher: 5a2a86276911631997b8821d278a964252bfbbf7
   expo-dev-menu: 5c8f08081eedb470fc8384195c044feba5055cec
   expo-dev-menu-interface: 27047461614aee1dc082cacc0e0f5b4c7b8edd1b
   ExpoKeepAwake: 0e8f18142e71bbf2c7f6aa66ebed249ba1420320
-  ExpoModulesCore: 2d60ec04c49641afb55fee3faac86fb108c68fe0
+  ExpoModulesCore: 1b2f5f91eff132671f6d0642aad2ba7915c6ff41
   EXSplashScreen: 799bece80089219b2c989c1082d70f3b00995cda
   EXUpdatesInterface: 2bbc11815dfa2ec3fc02e5534c7592c6b42b5327
   FBLazyVector: 739d2f9719faecb463c7aa191591af31c8c94182
