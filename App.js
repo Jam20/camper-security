@@ -5,6 +5,11 @@ import { BluetoothController } from './modules/BluetoothController';
 import ConnectedScreen from './components/connected-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DisconnectedScreen from './components/disconnected-screen';
+import {Colors} from 'react-native-ui-lib'
+
+Colors.loadColors({
+  primary: '#fa8c64'
+})
 export default function App() {
   var [connected, setConnected] = useState(false)
 
@@ -26,7 +31,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View paddingT-60 paddingB-32 style={styles.container}>
-        {!connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
+        {connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
       </View>
     </GestureHandlerRootView>
 

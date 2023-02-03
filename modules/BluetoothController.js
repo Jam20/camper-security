@@ -4,7 +4,7 @@ import { atob, btoa} from "react-native-quick-base64"
 
 const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
 const characteristicID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
-const messageIntervalMS = 200
+const messageIntervalMS = 60
 
 const manager = new BleManager()
 
@@ -70,7 +70,6 @@ export const BluetoothController = {
         if(!await isConnected()) return
         const encodedMessage = btoa(JSON.stringify({"lights":toArray(messageToSend)}))
         await connectedDevice.writeCharacteristicWithResponseForService(serviceID, characteristicID, encodedMessage)
-        nextMessage = {}
     },
 
     "getStatus": async () => {

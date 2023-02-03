@@ -1,5 +1,5 @@
 
-import { View, Text, Slider, TabController, Icon} from 'react-native-ui-lib';
+import { View, Text, Slider, TabController, Icon, TabControllerProps, Colors} from 'react-native-ui-lib';
 import logo from '../assets/Logo.png'
 import MusicPage from './music-page';
 import HomePage from './home-page';
@@ -11,8 +11,8 @@ export default function DisconnectedScreenz(props) {
     return (
         <View style={styles.container}>
             <Icon source={logo} width={"match-parent"} style={styles.image}/>
-            <ActivityIndicator size={"large"} color={"#fabaa3"} style={styles.indicator}/>
-            <Text color="#fabaa3" text70>Waiting For Device</Text>
+            <ActivityIndicator size={"large"} color={Colors.primary} style={styles.indicator}/>
+            <Text color={Colors.primary} text70>Waiting For Device</Text>
         </View>
     )
 }

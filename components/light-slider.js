@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, Slider } from 'react-native-ui-lib';
+import { View, Text, Slider, Colors} from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 
 
@@ -15,9 +15,11 @@ export default function LightSlider(props) {
                 <Text h1 centerH color="#ffffff">{props.label}</Text>
                 <Slider 
                     value={minVal}
+                    minimumTrackTintColor={Colors.primary}
+                    thumbTintColor={Colors.primary}
                     onValueChange={(val) => {
                         setValue(val)
-                        if(props.onValueChange) props.onValueChange(Math.round(value))
+                        if(props.onValueChange) props.onValueChange(Math.round(8192-value))
                     }}
                     minimumValue={minVal}
                     maximumValue={maxVal}
