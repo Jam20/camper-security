@@ -10,8 +10,7 @@ export default function LightSlider(props) {
     const [value, setValue] = useState(minVal)
 
     return(
-        <View paddingB-64 style={styles.container}>
-                <Text>TEST</Text>
+        <View paddingB-16 style={styles.container}>
                 <Text h1 centerH color="#ffffff">{props.label}</Text>
                 <Slider 
                     value={minVal}

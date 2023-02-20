@@ -7,9 +7,9 @@ export default function MusicPage() {
     const [sound, setSound] = useState()
 
     async function playSound() {
-        const { sound } = await Audio.Sound.createAsync(require('../assets/kendrickTest.mp3'), {shouldPlay: true})
-        setSound(sound)
-        await sound.playAsync()
+        //const { sound } = await Audio.Sound.createAsync(require('../assets/kendrickTest.mp3'), {shouldPlay: true})
+        //setSound(sound)
+        //await sound.playAsync()
     }
     async function pauseSound(){
         console.log("pausing")
