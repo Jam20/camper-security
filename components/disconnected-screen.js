@@ -1,9 +1,6 @@
 
-import { View, Text, Slider, TabController, Icon, TabControllerProps, Colors} from 'react-native-ui-lib';
+import { View, Text,Icon, Colors} from 'react-native-ui-lib';
 import logo from '../assets/Logo.png'
-import MusicPage from './music-page';
-import HomePage from './home-page';
-import SettingsPage from './settings-page';
 import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 
 export default function DisconnectedScreenz(props) {

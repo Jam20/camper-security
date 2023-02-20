@@ -1,4 +1,3 @@
-import { Audio } from 'expo-av';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, View } from 'react-native-ui-lib';

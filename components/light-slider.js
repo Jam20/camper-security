@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { View, Text, Slider, Colors} from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 
