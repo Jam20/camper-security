@@ -31,7 +31,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View paddingT-16 paddingB-32 style={styles.container}>
-        {!connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
+        {connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
       </View>
     </GestureHandlerRootView>
 

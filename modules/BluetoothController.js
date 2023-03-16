@@ -4,7 +4,8 @@ import { atob, btoa} from "react-native-quick-base64"
 
 const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
 const characteristicID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
-const messageIntervalMS = 60
+const voltageCharID = "ea2abb47-7c85-e99c-7b4e-5c68ee1ac042"
+const messageIntervalMS = 30
 
 const manager = new BleManager()
 
@@ -74,17 +75,11 @@ export const BluetoothController = {
 
     "getStatus": async () => {
         if(!await isConnected()) return null
-        const characteristic = await connectedDevice.readCharacteristicForService(serviceID, characteristicID)
+        const characteristic = await connectedDevice.readCharacteristicForService(serviceID, voltageCharID)
         const base64 = characteristic.value
         const string = atob(base64)
-        const byteArray = string.split(",")
 
-        return {
-            "running": byteArray[0],
-            "left": byteArray[1],
-            "right": byteArray[2],
-            "reverse": byteArray[3]
-        }
+        return JSON.parse(string)
     },
 
     "closeConnection": () => {
