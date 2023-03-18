@@ -34,10 +34,10 @@ const isConnected = async () => connectedDevice != null && await connectedDevice
 
 const toArray = (requestObj) => {
     return [
-        requestObj.running ? requestObj.running : 0,
         requestObj.left ? requestObj.left : 0,
         requestObj.right ? requestObj.right : 0,
         requestObj.reverse ? requestObj.reverse : 0,
+        requestObj.running ? requestObj.running : 0,
     ]
 }
 export const BluetoothController = {
