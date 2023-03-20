@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Switch, Text, View} from 'react-native-ui-lib';
+import { Switch, Text, View } from 'react-native-ui-lib';
 import AutoMode from './auto-mode';
 import ManualMode from './manual-mode';
 
@@ -12,9 +12,9 @@ export default function HomePage(props) {
                 <Text flex text40 centerH $textNeutral numberOfLines={1} >
                     Mode: {isAutoMode ? " Auto" : " Manual"}
                 </Text>
-                <Switch flex-0 value={isAutoMode} onValueChange={(val)=>setIsAutoMode(val)} width={80} height={38} thumbSize={34}/>
+                <Switch flex-0 value={isAutoMode} onValueChange={(val) => setIsAutoMode(val)} width={80} height={38} thumbSize={34} />
             </View>
-            {isAutoMode ? <AutoMode/> : <ManualMode/>}
+            {isAutoMode ? <AutoMode /> : <ManualMode />}
         </View>
     )
 }

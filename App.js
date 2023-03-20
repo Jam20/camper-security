@@ -5,7 +5,7 @@ import { BluetoothController } from './modules/BluetoothController';
 import ConnectedScreen from './components/connected-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DisconnectedScreen from './components/disconnected-screen';
-import {Colors} from 'react-native-ui-lib'
+import { Colors } from 'react-native-ui-lib'
 
 Colors.loadColors({
   primary: '#fa8c64'
@@ -13,25 +13,25 @@ Colors.loadColors({
 export default function App() {
   var [connected, setConnected] = useState(false)
 
-  useEffect(()=>{
-    BluetoothController.connect( async ()=>{
+  useEffect(() => {
+    BluetoothController.connect(async () => {
       setConnected(await BluetoothController.isConnected())
     })
     setInterval(async () => {
-      if(await BluetoothController.isConnected()) return
+      if (await BluetoothController.isConnected()) return
       setConnected(false)
       BluetoothController.connect(async () => {
         setConnected(await BluetoothController.isConnected())
       })
-    },5000)
-  },[])
+    }, 5000)
+  }, [])
 
-  
+
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <View paddingT-16 paddingB-32 style={styles.container}>
-        {!connected ? <ConnectedScreen/> : <DisconnectedScreen/>}
+        {connected ? <ConnectedScreen /> : <DisconnectedScreen />}
       </View>
     </GestureHandlerRootView>
 
