@@ -78,6 +78,7 @@ export default function MusicPage() {
     }, [])
 
     useEffect(() => {
+        if(!sound) return
         sound.pauseAsync()
         if (isPlaying) setIsPlaying(false)
         const nextSound = songs[songIdx].sound
