@@ -3,8 +3,10 @@ import { atob, btoa } from "react-native-quick-base64"
 
 
 const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
-const characteristicID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
+const lightCharID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 const voltageCharID = "ea2abb47-7c85-e99c-7b4e-5c68ee1ac042"
+const timerCharID = "dc2abb47-7c85-e99c-7b4e-5c68ee1ac042"
+
 const messageIntervalMS = 30
 
 const manager = new BleManager()
@@ -32,13 +34,17 @@ const scanAndConnect = async (error, device) => {
 
 const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
-const toArray = (requestObj) => {
-    return [
-        requestObj.left ? requestObj.left : 0,
-        requestObj.right ? requestObj.right : 0,
-        requestObj.reverse ? requestObj.reverse : 0,
-        requestObj.running ? requestObj.running : 0,
-    ]
+const transformMessage = (requestObj) => {
+    if (requestObj.startTime) return { timer: [requestObj.startTime, requestObj.endTime] }
+
+    return {
+        lights: [
+            requestObj.left ? requestObj.left : 0,
+            requestObj.right ? requestObj.right : 0,
+            requestObj.reverse ? requestObj.reverse : 0,
+            requestObj.running ? requestObj.running : 0,
+        ]
+    }
 }
 
 const connect = (callback) => {
@@ -67,8 +73,10 @@ const sendRequest = async (request) => {
 
     prevMessageTime = Date.now() //set new previous time
     if (!await isConnected()) return
-    const encodedMessage = btoa(JSON.stringify({ "lights": toArray(messageToSend) }))
-    await connectedDevice.writeCharacteristicWithResponseForService(serviceID, characteristicID, encodedMessage)
+    const encodedMessage = btoa(JSON.stringify(transformMessage(messageToSend)))
+    console.log(`before ${JSON.stringify(transformMessage(messageToSend))}`)
+    await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, lightCharID, encodedMessage)
+    console.log("after")
 }
 
 const getStatus = async () => {
