@@ -28,7 +28,7 @@ const scanAndConnect = async (error, device) => {
     if (device.name == "Camper Security Device") {
         manager.stopDeviceScan()
         connectedDevice = await device.connect()
-            .then((device) => device.discoverAllServicesAndCharacteristics())
+            .then((device) => device.discoverAllServicesAndCharacteristics()).then((device)=>device.requestMTU(100))
     }
 }
 

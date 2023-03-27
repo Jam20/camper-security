@@ -6,6 +6,10 @@ import ConnectedScreen from './components/connected-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DisconnectedScreen from './components/disconnected-screen';
 import { Colors } from 'react-native-ui-lib'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 
 Colors.loadColors({
   primary: '#fa8c64'
