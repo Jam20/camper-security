@@ -28,7 +28,7 @@ const scanAndConnect = async (error, device) => {
     if (device.name == "Camper Security Device") {
         manager.stopDeviceScan()
         connectedDevice = await device.connect()
-            .then((device) => device.discoverAllServicesAndCharacteristics()).then((device)=>device.requestMTU(100))
+            .then((device) => device.discoverAllServicesAndCharacteristics()).then((device) => device.requestMTU(100))
     }
 }
 
@@ -36,13 +36,13 @@ const isConnected = async () => connectedDevice != null && await connectedDevice
 
 const transformMessage = (requestObj) => {
     if (requestObj.startTime) return { timer: [requestObj.startTime, requestObj.endTime] }
-
+    //console.log(JSON.stringify(requestObj))
     return {
         lights: [
-            requestObj.left ? requestObj.left : 0,
-            requestObj.right ? requestObj.right : 0,
-            requestObj.reverse ? requestObj.reverse : 0,
-            requestObj.running ? requestObj.running : 0,
+            requestObj.left ?? 8191,
+            requestObj.right ?? 8191,
+            requestObj.reverse ?? 8191,
+            requestObj.running ?? 8191,
         ]
     }
 }
@@ -66,7 +66,8 @@ const sendRequest = async (request) => {
     const messageToSend = { ...nextMessage, ...request }
     //if it hasn't been messageInterval ms
     if (Date.now() - prevMessageTime < messageIntervalMS) {
-        timerId = setTimeout(() => BluetoothController.sendRequest(messageToSend), messageIntervalMS - Date.now() - prevMessageTime) //add new timer so messageInterval ms are between requests
+        const newTimout = messageIntervalMS - Date.now() - prevMessageTime
+        timerId = setTimeout(() => BluetoothController.sendRequest(messageToSend), newTimout) //add new timer so messageInterval ms are between requests
         nextMessage = messageToSend
         return
     }
@@ -74,16 +75,17 @@ const sendRequest = async (request) => {
     prevMessageTime = Date.now() //set new previous time
     if (!await isConnected()) return
     const encodedMessage = btoa(JSON.stringify(transformMessage(messageToSend)))
-    console.log(`before ${JSON.stringify(transformMessage(messageToSend))}`)
+
+    //console.log(`before ${JSON.stringify(transformMessage(messageToSend))}`)
+    const charID = messageToSend.startTime ? timerCharID : lightCharID
     await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, lightCharID, encodedMessage)
-    console.log("after")
+    //console.log("after")
 }
 
 const getStatus = async () => {
     if (!await isConnected()) return null
     const characteristic = await connectedDevice.readCharacteristicForService(serviceID, voltageCharID)
-    const base64 = characteristic.value
-    const string = atob(base64)
+    const string = atob(characteristic.value)
 
     return JSON.parse(string)
 }

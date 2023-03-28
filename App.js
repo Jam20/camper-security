@@ -38,8 +38,6 @@ export default function App() {
         {connected ? <ConnectedScreen /> : <DisconnectedScreen />}
       </View>
     </GestureHandlerRootView>
-
-
   );
 }
 

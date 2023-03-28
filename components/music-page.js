@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, View } from 'react-native-ui-lib';
+import { Button, Text, View } from 'react-native-ui-lib';
 import { Audio } from 'expo-av';
 import FFT from 'fft.js'
 import { BluetoothController } from '../modules/BluetoothController';
@@ -29,6 +29,19 @@ const songs = [
 
 
 ]
+var maxs = [0,0,0,0]
+
+
+function processSound(chunk, idx) {
+    //console.log(chunk)
+    const maxOfChunk = Math.max(...chunk)
+    if (maxOfChunk > maxs[idx] || maxOfChunk < maxs[idx] / 4) {
+        maxs[idx] = (maxs[idx] + maxOfChunk) / 2
+    }
+    //console.log(max)
+    //console.log(maxOfChunk)
+    return Math.floor(Math.min((maxOfChunk / maxs[idx]) * 8191, 8191))
+}
 
 export default function MusicPage() {
     const [sound, setSound] = useState()
@@ -52,14 +65,18 @@ export default function MusicPage() {
         const createSounds = async () => {
             const sounds = await Promise.all(songs.map(async (song) => {
                 const s = (await Audio.Sound.createAsync(song.file)).sound
-                s.setOnAudioSampleReceived((sample) => {
-                    //console.log(sample.channels[0].frames.length)
-                    const fft = new FFT(4096)
+                s.setOnAudioSampleReceived(async (sample) => {
+                    const fft = new FFT(sample.channels[0].frames.length)
                     const out = fft.createComplexArray()
                     fft.realTransform(out, sample.channels[0].frames)
+                    //console.log(out)
                     const chunk = (arr, size) => arr.reduce((carry, _, index, orig) => !(index % size) ? carry.concat([orig.slice(index, index + size)]) : carry, []);
-                    const chunks = chunk(out, 2048).map((array) => Math.max(...array)).map((val) => val / 350 * 8191 + 1024)
-                    BluetoothController.sendRequest({
+                    const chunks = chunk(out, sample.channels[0].frames.length/2).map(processSound)
+
+                    console.log(chunks)
+                    //console.log("test?")
+
+                    await BluetoothController.sendRequest({
                         running: chunks[0],
                         left: chunks[1],
                         right: chunks[2],
@@ -78,7 +95,7 @@ export default function MusicPage() {
     }, [])
 
     useEffect(() => {
-        if(!sound) return
+        if (!sound) return
         sound.pauseAsync()
         if (isPlaying) setIsPlaying(false)
         const nextSound = songs[songIdx].sound
@@ -89,14 +106,18 @@ export default function MusicPage() {
         <View style={styles.container}>
             {
                 songs[songIdx].sound &&
-                <View flex spread center row>
-                    <Button label="Skip Left" onPress={() => setSongIdx((songs.length + songIdx - 1) % songs.length)} />
-                    {
-                        isPlaying ?
-                            <Button label="Pause" onPress={pauseSound} size={Button.sizes.large} marginL-16 marginR-16 /> :
-                            <Button label="Play" onPress={playSound} size={Button.sizes.large} marginL-16 marginR-16 />
-                    }
-                    <Button label="Skip Right" onPress={() => setSongIdx((1 + songIdx) % songs.length)} />
+                <View flex center marginT-64>
+                    <Text text40 color="#ffffff">{songs[songIdx].title}</Text>
+                    <Text text50 color="#ffffff">{songs[songIdx].artist}</Text>
+                    <View flex spread center row marginT-32>
+                        <Button label="Skip Left" onPress={() => setSongIdx((songs.length + songIdx - 1) % songs.length)} />
+                        {
+                            isPlaying ?
+                                <Button label="Pause" onPress={pauseSound} size={Button.sizes.large} marginL-16 marginR-16 /> :
+                                <Button label="Play" onPress={playSound} size={Button.sizes.large} marginL-16 marginR-16 />
+                        }
+                        <Button label="Skip Right" onPress={() => setSongIdx((1 + songIdx) % songs.length)} />
+                    </View>
                 </View>
             }
 
