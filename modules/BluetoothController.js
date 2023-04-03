@@ -6,6 +6,7 @@ const serviceID = "da988935-3f12-9da1-4f4b-1c58661e4872"
 const lightCharID = "eb2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 const voltageCharID = "ea2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 const timerCharID = "dc2abb47-7c85-e99c-7b4e-5c68ee1ac042"
+const securityCharID = "db2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 
 const messageIntervalMS = 30
 
@@ -35,7 +36,8 @@ const scanAndConnect = async (error, device) => {
 const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
 const transformMessage = (requestObj) => {
-    if (requestObj.startTime) return { timer: [requestObj.startTime, requestObj.endTime] }
+    if (requestObj.enable != undefined) return {security: requestObj.enable ? 1:0}
+    if (requestObj.startTime != undefined) return { timer: [requestObj.startTime, requestObj.endTime] }
     //console.log(JSON.stringify(requestObj))
     return {
         lights: [
@@ -73,12 +75,15 @@ const sendRequest = async (request) => {
     }
 
     prevMessageTime = Date.now() //set new previous time
-    if (!await isConnected()) return
     const encodedMessage = btoa(JSON.stringify(transformMessage(messageToSend)))
 
     //console.log(`before ${JSON.stringify(transformMessage(messageToSend))}`)
-    const charID = messageToSend.startTime ? timerCharID : lightCharID
-    await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, lightCharID, encodedMessage)
+    const id = messageToSend.startTime != undefined ? timerCharID : lightCharID
+    const charID = messageToSend.enable != undefined ? securityCharID : id
+    console.log(`Char id: ${charID} messsage = ${JSON.stringify(transformMessage(messageToSend))}`)
+
+    if (!await isConnected()) return
+    await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, charID, encodedMessage)
     //console.log("after")
 }
 
