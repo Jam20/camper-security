@@ -1,14 +1,12 @@
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Colors, DateTimePicker, RadioButton, Slider, View, Text, Switch} from 'react-native-ui-lib';
+import { Button, Colors, RadioButton, Slider, View, Text, Switch} from 'react-native-ui-lib';
 import { RadioGroup } from 'react-native-ui-lib/src/components/radioGroup';
 import { BluetoothController } from '../modules/BluetoothController';
 
 export default function AutoMode(props) {
     const [timingMode, setTimingMode] = useState('timer')
     const [currentTimer, setCurrentTimer] = useState(1)
-    const [isAccelOn, setIsAccelOn] = useState(false)
     function onTimerValChange() {
 
         BluetoothController.sendRequest({
@@ -37,11 +35,7 @@ export default function AutoMode(props) {
                 {`${Math.floor(currentTimer/60)} hours, ${Math.floor(currentTimer%60)} minutes`}
             </Text>
             <Button label="Set Timer" onPress={()=> {onTimerValChange()}}/>
-            <Switch value={isAccelOn} onValueChange={(value) => {
-                setIsAccelOn(value)
-                BluetoothController.sendRequest({enable: value})
-            }
-            }/>     
+  
         </View>
     )
 }

@@ -1,7 +1,6 @@
-
 import { View, Text, Icon, Colors } from 'react-native-ui-lib';
 import logo from '../assets/Logo.png'
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 export default function DisconnectedScreenz(props) {
 

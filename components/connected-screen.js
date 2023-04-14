@@ -1,4 +1,3 @@
-
 import { View, TabController, Colors } from 'react-native-ui-lib';
 import MusicPage from './music-page';
 import HomePage from './home-page';

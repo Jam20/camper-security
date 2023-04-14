@@ -8,6 +8,7 @@ const voltageCharID = "ea2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 const timerCharID = "dc2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 const securityCharID = "db2abb47-7c85-e99c-7b4e-5c68ee1ac042"
 
+
 const messageIntervalMS = 30
 
 const manager = new BleManager()
@@ -36,9 +37,9 @@ const scanAndConnect = async (error, device) => {
 const isConnected = async () => connectedDevice != null && await connectedDevice.isConnected()
 
 const transformMessage = (requestObj) => {
-    if (requestObj.enable != undefined) return {security: requestObj.enable ? 1:0}
+    if (requestObj.enable != undefined) return {security: requestObj.enable ? 1:0, sense: requestObj.band}
     if (requestObj.startTime != undefined) return { timer: [requestObj.startTime, requestObj.endTime] }
-    //console.log(JSON.stringify(requestObj))
+
     return {
         lights: [
             requestObj.left ?? 8191,
@@ -66,6 +67,7 @@ const sendRequest = async (request) => {
     //clear any previous timers
     if (timerId != null) clearTimeout(timerId)
     const messageToSend = { ...nextMessage, ...request }
+
     //if it hasn't been messageInterval ms
     if (Date.now() - prevMessageTime < messageIntervalMS) {
         const newTimout = messageIntervalMS - Date.now() - prevMessageTime
@@ -77,14 +79,13 @@ const sendRequest = async (request) => {
     prevMessageTime = Date.now() //set new previous time
     const encodedMessage = btoa(JSON.stringify(transformMessage(messageToSend)))
 
-    //console.log(`before ${JSON.stringify(transformMessage(messageToSend))}`)
     const id = messageToSend.startTime != undefined ? timerCharID : lightCharID
     const charID = messageToSend.enable != undefined ? securityCharID : id
-    console.log(`Char id: ${charID} messsage = ${JSON.stringify(transformMessage(messageToSend))}`)
+    //console.log(JSON.stringify(messageToSend))
+    console.log(JSON.stringify(transformMessage(messageToSend)))
 
     if (!await isConnected()) return
-    await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, charID, encodedMessage)
-    //console.log("after")
+    await connectedDevice.writeCharacteristicWithResponseForService(serviceID, charID, encodedMessage)
 }
 
 const getStatus = async () => {
