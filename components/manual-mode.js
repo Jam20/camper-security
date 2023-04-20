@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 
  
 function scaleValue(val, factor) {
-    console.log(val)
     return 8191 - Math.floor(val * factor)
 }
 export default function ManualMode(props) {

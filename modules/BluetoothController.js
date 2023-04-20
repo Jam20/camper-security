@@ -81,11 +81,9 @@ const sendRequest = async (request) => {
 
     const id = messageToSend.startTime != undefined ? timerCharID : lightCharID
     const charID = messageToSend.enable != undefined ? securityCharID : id
-    //console.log(JSON.stringify(messageToSend))
-    console.log(JSON.stringify(transformMessage(messageToSend)))
 
     if (!await isConnected()) return
-    await connectedDevice.writeCharacteristicWithResponseForService(serviceID, charID, encodedMessage)
+    await connectedDevice.writeCharacteristicWithoutResponseForService(serviceID, charID, encodedMessage)
 }
 
 const getStatus = async () => {

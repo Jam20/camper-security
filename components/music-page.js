@@ -25,6 +25,11 @@ const songs = [
         title: "Bohemian Rhapsody",
         artist: "Queen",
         file: require('../assets/bohemian.mp3')
+    }, 
+    {
+        title: "Bangarang",
+        artist: "Skrillex",
+        file: require('../assets/bangarang.mp3')
     }
 
 
@@ -33,13 +38,11 @@ var maxs = [0,0,0,0]
 
 
 function processSound(chunk, idx) {
-    //console.log(chunk)
     const maxOfChunk = Math.max(...chunk)
     if (maxOfChunk > maxs[idx] || maxOfChunk < maxs[idx] / 4) {
         maxs[idx] = (maxs[idx] + maxOfChunk) / 2
     }
-    //console.log(max)
-    //console.log(maxOfChunk)
+
     return Math.floor(Math.min((maxOfChunk / maxs[idx]) * 8191, 8191))
 }
 
@@ -53,7 +56,6 @@ export default function MusicPage() {
         if (!sound) return
         await sound.playAsync()
         setIsPlaying(true)
-        console.log("set")
     }
 
     async function pauseSound() {
@@ -69,12 +71,9 @@ export default function MusicPage() {
                     const fft = new FFT(sample.channels[0].frames.length)
                     const out = fft.createComplexArray()
                     fft.realTransform(out, sample.channels[0].frames)
-                    //console.log(out)
                     const chunk = (arr, size) => arr.reduce((carry, _, index, orig) => !(index % size) ? carry.concat([orig.slice(index, index + size)]) : carry, []);
                     const chunks = chunk(out, sample.channels[0].frames.length/2).map(processSound)
 
-                    console.log(chunks)
-                    //console.log("test?")
 
                     await BluetoothController.sendRequest({
                         running: chunks[0],
